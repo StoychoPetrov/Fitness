@@ -17,6 +17,10 @@ public class Programm {
     @ColumnInfo(name = "programm_title")
     private String programmTitle;
 
+    public Programm(String programmTitle) {
+        this.programmTitle = programmTitle;
+    }
+
     public int getProgrammId() {
         return programmId;
     }

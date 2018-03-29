@@ -17,6 +17,10 @@ public class Day {
     @ColumnInfo(name = "day_title")
     private String dayTitle;
 
+    public Day(String dayTitle) {
+        this.dayTitle = dayTitle;
+    }
+
     public int getDayId() {
         return dayId;
     }

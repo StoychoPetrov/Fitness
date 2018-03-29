@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import com.example.stoychopetrov.fitness.database.Day;
+import com.example.stoychopetrov.fitness.database.Exercise;
 
 import java.util.List;
 
@@ -16,12 +17,12 @@ import java.util.List;
 @Dao
 public interface ExerciseDao {
 
-    @Query("SELECT * FROM day")
-    List<Day> getAllDays();
+    @Query("SELECT * FROM exercise")
+    List<Exercise> getAllExercises();
 
     @Insert
-    void insertAll(Day... days);
+    long[] insertAll(Exercise... exercises);
 
     @Delete
-    void delete(Day day);
+    void delete(Exercise exercise);
 }

@@ -19,6 +19,11 @@ public class Exercise {
     @ColumnInfo(name = "repeating")
     private int repeating;
 
+    public Exercise(String exerciseTitle, int repeating) {
+        this.exerciseTitle = exerciseTitle;
+        this.repeating = repeating;
+    }
+
     public int getExerciseId() {
         return exerciseId;
     }
