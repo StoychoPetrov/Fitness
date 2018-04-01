@@ -23,5 +23,8 @@ public interface DayDao {
     void insertAll(Day... days);
 
     @Delete
+    void deleteAll(Day... days);
+
+    @Delete
     void delete(Day day);
 }

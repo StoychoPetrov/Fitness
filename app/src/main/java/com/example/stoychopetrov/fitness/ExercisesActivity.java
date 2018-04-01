@@ -20,12 +20,15 @@ import com.example.stoychopetrov.fitness.database.WorkoutPlan;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExercisesActivity extends AppCompatActivity implements View.OnClickListener {
+public class ExercisesActivity extends AppCompatActivity implements View.OnClickListener, ExercisesAdapter.OnEditClicked, AddExerciseDialog.OnButtonClicked {
 
     private ListView                mExercisesListView;
     private ImageView               mAddImg;
 
     private List<DayAndExercise>    mExercises      = new ArrayList<>();
+    private List<Day>               mDays           = new ArrayList<>();
+    private List<Programm>          mPrograms       = new ArrayList<>();
+
     private FitnessProgrammDatabase mDatabase;
     private ExercisesAdapter        mExercisesAdapter;
 
@@ -45,13 +48,16 @@ public class ExercisesActivity extends AppCompatActivity implements View.OnClick
         mExercisesListView.setLongClickable(true);
 
         mDatabase = FitnessProgrammDatabase.getAppDatabase(this);
+        mDays     = mDatabase.getDayDao().getAllDays();
+        mPrograms = mDatabase.getProgrammDao().getAllProgramms();
+
         mExercises.addAll(mDatabase.getWorkoutPlanDao().getAllExercisesByProgram(new int[]{getIntent().getIntExtra("programId", 0)}));
 
         setAdapter();
     }
 
     private void setAdapter(){
-        mExercisesAdapter = new ExercisesAdapter(this, mExercises);
+        mExercisesAdapter = new ExercisesAdapter(this, mExercises, this);
         mExercisesListView.setAdapter(mExercisesAdapter);
 
         mExercisesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -92,38 +98,62 @@ public class ExercisesActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
 
-        final List<Day> days              = mDatabase.getDayDao().getAllDays();
-        final List<Programm> programms    = mDatabase.getProgrammDao().getAllProgramms();
+        if(v.getId() == mAddImg.getId()) {
+            final List<Programm> programms = mDatabase.getProgrammDao().getAllProgramms();
 
-        List<String> daysTitles = new ArrayList<>();
-        List<String> programs   = new ArrayList<>();
-        for (Day day : days)
-            daysTitles.add(day.getDayTitle());
+            List<String> daysTitles = new ArrayList<>();
+            List<String> programs = new ArrayList<>();
+            for (Day day : mDays)
+                daysTitles.add(day.getDayTitle());
 
-        for(Programm programm : programms)
-            programs.add(programm.getProgrammTitle());
+            for (Programm programm : programms)
+                programs.add(programm.getProgrammTitle());
 
-        if(v.getId() == mAddImg.getId()){
-            AddExerciseDialog dialog = new AddExerciseDialog(this, daysTitles, programs, new AddExerciseDialog.OnButtonClicked() {
-                @Override
-                public void onAdd(int dayPosition, int programPosition, String exerciseName) {
-                    int dayId = days.get(dayPosition).getDayId();
-                    int programId = programms.get(programPosition).getProgrammId();
-
-                    Exercise exercise = new Exercise(exerciseName, 20);
-                    long[] exercisesIds = mDatabase.getExerciseDao().insertAll(exercise);
-
-                    WorkoutPlan workoutPlan = new WorkoutPlan(dayId, (int) exercisesIds[0], programId);
-                    mDatabase.getWorkoutPlanDao().insert(workoutPlan);
-
-                    mExercises.clear();
-                    mExercises.addAll(mDatabase.getWorkoutPlanDao().getAllExercisesByProgram(new int[]{getIntent().getIntExtra("programId", 0)}));
-
-                    mExercisesAdapter.notifyDataSetChanged();
-                }
-            });
-
+            AddExerciseDialog dialog = new AddExerciseDialog(this, mDays, mPrograms, this, null);
             dialog.show();
         }
+    }
+
+    @Override
+    public void onEdit(int position) {
+        List<String> daysTitles = new ArrayList<>();
+        List<String> programs   = new ArrayList<>();
+        for (Day day : mDays)
+            daysTitles.add(day.getDayTitle());
+
+        for (Programm programm : mPrograms)
+            programs.add(programm.getProgrammTitle());
+
+        AddExerciseDialog addExerciseDialog = new AddExerciseDialog(this, mDays, mPrograms, this, mExercises.get(position).getExercise());
+
+        addExerciseDialog.show();
+    }
+
+    @Override
+    public void onAdd(int dayPosition, int programPosition, String exerciseTitle) {
+        int dayId = mDays.get(dayPosition).getDayId();
+        int programId = mPrograms.get(programPosition).getProgrammId();
+
+        Exercise exercise = new Exercise(exerciseTitle, 20);
+        long[] exercisesIds = mDatabase.getExerciseDao().insertAll(exercise);
+
+        WorkoutPlan workoutPlan = new WorkoutPlan(dayId, (int) exercisesIds[0], programId);
+        mDatabase.getWorkoutPlanDao().insert(workoutPlan);
+
+        mExercises.clear();
+        mExercises.addAll(mDatabase.getWorkoutPlanDao().getAllExercisesByProgram(new int[]{getIntent().getIntExtra("programId", 0)}));
+
+        mExercisesAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onUpdate(int dayPosition, int programPosition, Exercise exercise) {
+        mDatabase.getExerciseDao().update(exercise);
+        mDatabase.getWorkoutPlanDao().updateWorkoutPlan(mDays.get(dayPosition).getDayId(), exercise.getExerciseId(), mPrograms.get(programPosition).getProgrammId());
+
+        mExercises.clear();
+        mExercises.addAll(mDatabase.getWorkoutPlanDao().getAllExercisesByProgram(new int[]{getIntent().getIntExtra("programId", 0)}));
+
+        mExercisesAdapter.notifyDataSetChanged();
     }
 }

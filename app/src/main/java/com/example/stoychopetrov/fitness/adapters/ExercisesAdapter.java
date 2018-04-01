@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.stoychopetrov.fitness.R;
@@ -22,17 +23,23 @@ public class ExercisesAdapter extends ArrayAdapter<DayAndExercise> {
 
     private Context                 mContext;
     private List<DayAndExercise>    mExercises;
+    private OnEditClicked           mListener;
 
-    public ExercisesAdapter(@NonNull Context context, @NonNull List<DayAndExercise> objects) {
+    public interface OnEditClicked {
+        void onEdit(int position);
+    }
+
+    public ExercisesAdapter(@NonNull Context context, @NonNull List<DayAndExercise> objects, OnEditClicked listener) {
         super(context, R.layout.item_layout, objects);
 
         mContext    = context;
         mExercises  = objects;
+        mListener   = listener;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         if (convertView == null) {
             LayoutInflater oLayInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,6 +48,7 @@ public class ExercisesAdapter extends ArrayAdapter<DayAndExercise> {
 
         TextView    exercise    = convertView.findViewById(R.id.name);
         TextView    dayOfWeek   = convertView.findViewById(R.id.day_of_week);
+        ImageButton editBtn     = convertView.findViewById(R.id.edit_btn);
 
         if(position == 0 || mExercises.get(position).getDay().getDayId() != mExercises.get(position - 1).getDay().getDayId()) {
             dayOfWeek.setText(mExercises.get(position).getDay().getDayTitle());
@@ -51,7 +59,13 @@ public class ExercisesAdapter extends ArrayAdapter<DayAndExercise> {
 
         exercise.setText(mExercises.get(position).getExercise().getExerciseTitle());
 
-        return convertView;
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onEdit(position);
+            }
+        });
 
+        return convertView;
     }
 }

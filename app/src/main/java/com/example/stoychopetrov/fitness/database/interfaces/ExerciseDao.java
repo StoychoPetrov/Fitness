@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.example.stoychopetrov.fitness.database.Day;
 import com.example.stoychopetrov.fitness.database.Exercise;
@@ -25,4 +26,7 @@ public interface ExerciseDao {
 
     @Delete
     void delete(Exercise exercise);
+
+    @Update
+    void update(Exercise exercise);
 }

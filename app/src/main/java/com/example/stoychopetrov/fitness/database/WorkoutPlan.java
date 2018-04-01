@@ -22,13 +22,25 @@ import android.arch.persistence.room.ForeignKey;
         })
 public class WorkoutPlan {
 
-    public final int dayId;
-    public final int exerciseId;
-    public final int programmId;
+    private final int dayId;
+    private final int exerciseId;
+    private final int programmId;
 
     public WorkoutPlan(int dayId, int exerciseId, int programmId) {
         this.dayId = dayId;
         this.exerciseId = exerciseId;
         this.programmId = programmId;
+    }
+
+    public int getDayId() {
+        return dayId;
+    }
+
+    public int getExerciseId() {
+        return exerciseId;
+    }
+
+    public int getProgrammId() {
+        return programmId;
     }
 }

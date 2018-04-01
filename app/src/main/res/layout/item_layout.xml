@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:android           ="http://schemas.android.com/apk/res/android"
+    android:layout_width    ="match_parent"
+    android:layout_height   ="wrap_content"
+    android:orientation     ="vertical"
+    android:descendantFocusability="blocksDescendants">
 
     <TextView
         android:id              ="@+id/day_of_week"
@@ -19,14 +20,30 @@
         android:background      ="@color/colorPrimary"
         android:visibility      ="gone"/>
 
-    <TextView
-        android:id                  ="@+id/name"
-        android:layout_width        ="match_parent"
-        android:layout_height       ="?attr/actionBarSize"
-        android:gravity             ="center_vertical"
-        android:textSize            ="18sp"
-        android:textColor           ="@android:color/black"
-        android:paddingLeft         ="16dp"
-        android:paddingRight        ="16dp"/>
+    <RelativeLayout
+        android:layout_width    ="match_parent"
+        android:layout_height   ="wrap_content">
+
+        <TextView
+            android:id                  ="@+id/name"
+            android:layout_width        ="match_parent"
+            android:layout_height       ="?attr/actionBarSize"
+            android:gravity             ="center_vertical"
+            android:textSize            ="18sp"
+            android:textColor           ="@android:color/black"
+            android:paddingLeft         ="16dp"
+            android:paddingRight        ="16dp"/>
+
+        <ImageButton
+            android:id                      ="@+id/edit_btn"
+            style                           ="?attr/buttonBarButtonStyle"
+            android:layout_width            ="wrap_content"
+            android:layout_height           ="wrap_content"
+            android:layout_alignParentRight ="true"
+            android:layout_centerVertical   ="true"
+            android:layout_marginRight      ="10dp"
+            android:src                     ="@android:drawable/ic_menu_edit" />
+
+    </RelativeLayout>
 
 </LinearLayout>
