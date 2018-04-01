@@ -99,16 +99,6 @@ public class ExercisesActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
 
         if(v.getId() == mAddImg.getId()) {
-            final List<Programm> programms = mDatabase.getProgrammDao().getAllProgramms();
-
-            List<String> daysTitles = new ArrayList<>();
-            List<String> programs = new ArrayList<>();
-            for (Day day : mDays)
-                daysTitles.add(day.getDayTitle());
-
-            for (Programm programm : programms)
-                programs.add(programm.getProgrammTitle());
-
             AddExerciseDialog dialog = new AddExerciseDialog(this, mDays, mPrograms, this, null);
             dialog.show();
         }
@@ -116,16 +106,7 @@ public class ExercisesActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onEdit(int position) {
-        List<String> daysTitles = new ArrayList<>();
-        List<String> programs   = new ArrayList<>();
-        for (Day day : mDays)
-            daysTitles.add(day.getDayTitle());
-
-        for (Programm programm : mPrograms)
-            programs.add(programm.getProgrammTitle());
-
         AddExerciseDialog addExerciseDialog = new AddExerciseDialog(this, mDays, mPrograms, this, mExercises.get(position).getExercise());
-
         addExerciseDialog.show();
     }
 
