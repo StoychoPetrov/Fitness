@@ -1,4 +1,4 @@
-package com.example.stoychopetrov.fitness;
+package com.example.room.fitness;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

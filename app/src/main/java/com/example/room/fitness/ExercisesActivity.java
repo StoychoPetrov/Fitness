@@ -1,4 +1,4 @@
-package com.example.stoychopetrov.fitness;
+package com.example.room.fitness;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -9,13 +9,13 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.example.stoychopetrov.fitness.adapters.ExercisesAdapter;
-import com.example.stoychopetrov.fitness.database.Day;
-import com.example.stoychopetrov.fitness.database.DayAndExercise;
-import com.example.stoychopetrov.fitness.database.Exercise;
-import com.example.stoychopetrov.fitness.database.FitnessProgrammDatabase;
-import com.example.stoychopetrov.fitness.database.Programm;
-import com.example.stoychopetrov.fitness.database.WorkoutPlan;
+import com.example.room.fitness.adapters.ExercisesAdapter;
+import com.example.room.fitness.database.Day;
+import com.example.room.fitness.database.DayAndExercise;
+import com.example.room.fitness.database.Exercise;
+import com.example.room.fitness.database.FitnessProgrammDatabase;
+import com.example.room.fitness.database.Programm;
+import com.example.room.fitness.database.WorkoutPlan;
 
 import java.util.ArrayList;
 import java.util.List;

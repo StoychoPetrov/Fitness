@@ -1,4 +1,4 @@
-package com.example.stoychopetrov.fitness;
+package com.example.room.fitness;
 
 import org.junit.Test;
 

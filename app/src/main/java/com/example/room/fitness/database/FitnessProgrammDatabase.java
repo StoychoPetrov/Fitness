@@ -1,14 +1,14 @@
-package com.example.stoychopetrov.fitness.database;
+package com.example.room.fitness.database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.example.stoychopetrov.fitness.database.interfaces.DayDao;
-import com.example.stoychopetrov.fitness.database.interfaces.ExerciseDao;
-import com.example.stoychopetrov.fitness.database.interfaces.ProgrammDao;
-import com.example.stoychopetrov.fitness.database.interfaces.WorkoutPlanDao;
+import com.example.room.fitness.database.interfaces.DayDao;
+import com.example.room.fitness.database.interfaces.ExerciseDao;
+import com.example.room.fitness.database.interfaces.ProgrammDao;
+import com.example.room.fitness.database.interfaces.WorkoutPlanDao;
 
 /**
  * Created by Stoycho Petrov on 28.3.2018 г..

@@ -1,4 +1,4 @@
-package com.example.stoychopetrov.fitness;
+package com.example.room.fitness;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -12,11 +12,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.stoychopetrov.fitness.database.Day;
-import com.example.stoychopetrov.fitness.database.Exercise;
-import com.example.stoychopetrov.fitness.database.FitnessProgrammDatabase;
-import com.example.stoychopetrov.fitness.database.Programm;
-import com.example.stoychopetrov.fitness.database.WorkoutPlan;
+import com.example.room.fitness.database.Day;
+import com.example.room.fitness.database.Exercise;
+import com.example.room.fitness.database.FitnessProgrammDatabase;
+import com.example.room.fitness.database.Programm;
+import com.example.room.fitness.database.WorkoutPlan;
 
 import java.util.ArrayList;
 import java.util.List;

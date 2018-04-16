@@ -1,4 +1,4 @@
-package com.example.stoychopetrov.fitness.adapters;
+package com.example.room.fitness.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,8 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.stoychopetrov.fitness.R;
-import com.example.stoychopetrov.fitness.database.DayAndExercise;
+import com.example.room.fitness.R;
+import com.example.room.fitness.database.DayAndExercise;
 
 import java.util.List;
 

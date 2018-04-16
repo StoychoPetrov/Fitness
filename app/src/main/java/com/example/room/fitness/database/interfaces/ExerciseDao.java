@@ -1,4 +1,4 @@
-package com.example.stoychopetrov.fitness.database.interfaces;
+package com.example.room.fitness.database.interfaces;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -6,8 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.example.stoychopetrov.fitness.database.Day;
-import com.example.stoychopetrov.fitness.database.Exercise;
+import com.example.room.fitness.database.Exercise;
 
 import java.util.List;
 
