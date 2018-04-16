@@ -7,6 +7,7 @@ import android.arch.persistence.room.ForeignKey;
  * Created by Stoycho Petrov on 28.3.2018 г..
  */
 
+// Създаване на връзките между таблиците. Таблицата "workout_plan обединява останалите таблици".
 @Entity(tableName = "workout_plan",
         primaryKeys = { "exerciseId", "programmId", "dayId" },
         foreignKeys = {

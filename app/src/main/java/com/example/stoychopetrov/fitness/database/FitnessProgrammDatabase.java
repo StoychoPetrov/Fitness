@@ -25,12 +25,11 @@ public abstract class FitnessProgrammDatabase extends RoomDatabase{
     public abstract ProgrammDao     getProgrammDao();
     public abstract WorkoutPlanDao  getWorkoutPlanDao();
 
+    // Ако не е създадена базата, се създава.
     public static FitnessProgrammDatabase getAppDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE =
                     Room.databaseBuilder(context.getApplicationContext(), FitnessProgrammDatabase.class, "fitness-database")
-                            // allow queries on the main thread.
-                            // Don't do this on a real app! See PersistenceBasicSample for an example.
                             .allowMainThreadQueries()
                             .build();
         }

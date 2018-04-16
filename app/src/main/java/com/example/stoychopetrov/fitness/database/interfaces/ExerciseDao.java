@@ -18,15 +18,19 @@ import java.util.List;
 @Dao
 public interface ExerciseDao {
 
+    // Справка на всички упражнения от базата
     @Query("SELECT * FROM exercise")
     List<Exercise> getAllExercises();
 
+    // Въвеждане на упражнения
     @Insert
     long[] insertAll(Exercise... exercises);
 
+    // Изтриване на упражнение
     @Delete
     void delete(Exercise exercise);
 
+    // Редактиране на упражнение
     @Update
     void update(Exercise exercise);
 }

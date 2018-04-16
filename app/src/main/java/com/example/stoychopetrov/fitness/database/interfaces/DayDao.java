@@ -16,15 +16,19 @@ import java.util.List;
 @Dao
 public interface DayDao {
 
+    // Справка на всички дни от базата.
     @Query("SELECT * FROM day")
     List<Day> getAllDays();
 
+    //Въвеждане на дни в базата
     @Insert
     void insertAll(Day... days);
 
+    // Изтриване на дни от базата
     @Delete
     void deleteAll(Day... days);
 
+    // Изтриване на ден от базата
     @Delete
     void delete(Day day);
 }

@@ -47,22 +47,28 @@ public class ExercisesActivity extends AppCompatActivity implements View.OnClick
         mAddImg.setOnClickListener(this);
         mExercisesListView.setLongClickable(true);
 
-        mDatabase = FitnessProgrammDatabase.getAppDatabase(this);
-        mDays     = mDatabase.getDayDao().getAllDays();
+        mDatabase = FitnessProgrammDatabase.getAppDatabase(this);       // получаване на инстанция към базата от данни
+        mDays     = mDatabase.getDayDao().getAllDays();                 // вземане на всички дни от базата
         mPrograms = mDatabase.getProgrammDao().getAllProgramms();
 
+        // вземане на всички упражнения по дадена програма
         mExercises.addAll(mDatabase.getWorkoutPlanDao().getAllExercisesByProgram(new int[]{getIntent().getIntExtra("programId", 0)}));
 
         setAdapter();
     }
 
     private void setAdapter(){
+
+        // Създаване на адаптер, който да зареди списък с упражненията
         mExercisesAdapter = new ExercisesAdapter(this, mExercises, this);
         mExercisesListView.setAdapter(mExercisesAdapter);
 
+        // Закачане на слушател, който да възникне при продължително натискане върху едно поле от списъка
         mExercisesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                // Създаване на диалог, който пита потребителят дали е сигурен, че иска да изтрие дадена тренировка
                 AlertDialog alertDialog = new AlertDialog.Builder(ExercisesActivity.this).create();
                 alertDialog.setTitle("Are you sure ?");
                 alertDialog.setMessage("Do you want to delete the exercise ?");
@@ -73,8 +79,10 @@ public class ExercisesActivity extends AppCompatActivity implements View.OnClick
 
                                 DayAndExercise dayAndExercise = mExercises.get(position);
 
+                                // изтриване на тренировка от базата по програма и ден
                                 mDatabase.getWorkoutPlanDao().deleteExerciseByDayAndProgram(dayAndExercise.getDay().getDayId(), dayAndExercise.getExercise().getExerciseId(), getIntent().getIntExtra("programId", 0));
 
+                                // презареждане на списъка с упражнения
                                 mExercises.clear();
                                 mExercises.addAll(mDatabase.getWorkoutPlanDao().getAllExercisesByProgram(new int[]{getIntent().getIntExtra("programId", 0)}));
                                 mExercisesAdapter.notifyDataSetChanged();
@@ -106,21 +114,24 @@ public class ExercisesActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onEdit(int position) {
+        // показване на прозорец за редактиране на ново упражнение
         AddExerciseDialog addExerciseDialog = new AddExerciseDialog(this, mDays, mPrograms, this, mExercises.get(position).getExercise());
         addExerciseDialog.show();
     }
 
     @Override
     public void onAdd(int dayPosition, int programPosition, String exerciseTitle) {
-        int dayId = mDays.get(dayPosition).getDayId();
-        int programId = mPrograms.get(programPosition).getProgrammId();
 
-        Exercise exercise = new Exercise(exerciseTitle, 20);
-        long[] exercisesIds = mDatabase.getExerciseDao().insertAll(exercise);
+        int dayId = mDays.get(dayPosition).getDayId();              // ден в, който е добавено новото упражнение
+        int programId = mPrograms.get(programPosition).getProgrammId(); // програма, в която е добавено новот упражнение
+
+        Exercise exercise = new Exercise(exerciseTitle, 20);        // създаване на новото упражнение с име, което е въвел потребителя
+        long[] exercisesIds = mDatabase.getExerciseDao().insertAll(exercise); // добавяне на новот упражнениеи всемане на неговото id
 
         WorkoutPlan workoutPlan = new WorkoutPlan(dayId, (int) exercisesIds[0], programId);
         mDatabase.getWorkoutPlanDao().insert(workoutPlan);
 
+        // презареждане на списъка с упражнения
         mExercises.clear();
         mExercises.addAll(mDatabase.getWorkoutPlanDao().getAllExercisesByProgram(new int[]{getIntent().getIntExtra("programId", 0)}));
 
@@ -129,9 +140,12 @@ public class ExercisesActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onUpdate(int dayPosition, int programPosition, Exercise exercise) {
+
+        // Редактиране на даденото упражнение
         mDatabase.getExerciseDao().update(exercise);
         mDatabase.getWorkoutPlanDao().updateWorkoutPlan(mDays.get(dayPosition).getDayId(), exercise.getExerciseId(), mPrograms.get(programPosition).getProgrammId());
 
+        // презареждане на списъка с упражнения
         mExercises.clear();
         mExercises.addAll(mDatabase.getWorkoutPlanDao().getAllExercisesByProgram(new int[]{getIntent().getIntExtra("programId", 0)}));
 

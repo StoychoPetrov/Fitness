@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         initUI();
         mDatabase = FitnessProgrammDatabase.getAppDatabase(this);
 
+        // Добавяне на данни в базата
         if(mDatabase.getDayDao().getAllDays().size() == 0)
             addDaysOfWeek();
         if(mDatabase.getExerciseDao().getAllExercises().size() == 0)
@@ -39,13 +40,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             addProgramms();
         if(mDatabase.getWorkoutPlanDao().getAllWorkoutPlans().size() == 0)
             addPlans();
-
-        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         setAdapter();
     }
@@ -57,12 +51,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void setAdapter(){
         ArrayList<String> titles = new ArrayList<>();
-        mProgramsList = mDatabase.getProgrammDao().getAllProgramms();
+        mProgramsList = mDatabase.getProgrammDao().getAllProgramms();      // взема на всички програми от базата
 
         for(Programm programm : mProgramsList){
-            titles.add(programm.getProgrammTitle());
+            titles.add(programm.getProgrammTitle());        // събиране на всички имена на програми в един списък
         }
 
+        // Създаване на адаптер, който да зареди всички програми в един списък на потребителя
         ArrayAdapter<String> programmsAdapter = new ArrayAdapter<String>(this, R.layout.item_layout, R.id.name, titles);
         mProgrammsListView.setAdapter(programmsAdapter);
     }
@@ -107,9 +102,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        // При избиране на програма се стартира нов екран с упражненията на дадената програма
         Programm programm = mProgramsList.get(position);
-        Intent intent = new Intent(this, ExercisesActivity.class);
-        intent.putExtra("programId", programm.getProgrammId());
-        startActivity(intent);
+        Intent intent = new Intent(this, ExercisesActivity.class);  // посочване кой екран да се стартира
+        intent.putExtra("programId", programm.getProgrammId());             // предаване на id на избраната програма към следващия екран
+        startActivity(intent);                                                    // стартиране на екрана с упражненията
     }
 }

@@ -11,7 +11,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "day")
 public class Day {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true)        // идентификационен номер на поле от таблицата, което се генерира автоматично
     private int dayId;
 
     @ColumnInfo(name = "day_title")

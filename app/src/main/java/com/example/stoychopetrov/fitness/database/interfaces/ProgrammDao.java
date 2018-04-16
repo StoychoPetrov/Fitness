@@ -16,12 +16,16 @@ import java.util.List;
 
 @Dao
 public interface ProgrammDao {
+
+    // Справка на програмите
     @Query("SELECT * FROM programm")
     List<Programm> getAllProgramms();
 
+    // Въвеждане на проргами
     @Insert
     void insertAll(Programm... programms);
 
+    // Изтриване на програма
     @Delete
     void delete(Programm programm);
 }
